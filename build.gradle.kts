@@ -30,7 +30,6 @@ allprojects {
 
     dependencies {
         val spockVersion = "2.4-M4-groovy-4.0"
-        testImplementation("org.spockframework:spock-spring:$spockVersion")
         testImplementation("org.spockframework:spock-core:$spockVersion")
     }
 
