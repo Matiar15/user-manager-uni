@@ -1,0 +1,14 @@
+name: "user-manager-uni"
+
+services:
+  postgres:
+    container_name: "postgres"
+    image: "postgres:16.2"
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=root
+      - POSTGRES_DB=root
