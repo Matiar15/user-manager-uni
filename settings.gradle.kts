@@ -27,7 +27,8 @@ dependencyResolutionManagement {
         }
 
         create("libs") {
-            library("kotlinReflect", "org.jetbrains.kotlin", "kotlin-reflect").version("1.9.22")
+            library("kotlinReflect", "org.jetbrains.kotlin", "kotlin-reflect").version("1.9.23")
+            library("postgres", "org.postgresql:postgresql:42.7.3")
             library("flyway", "org.flywaydb", "flyway-core").version("10.9.0")
             library("jackson", "com.fasterxml.jackson.module", "jackson-module-kotlin").version("2.16.1")
         }
