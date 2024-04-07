@@ -3,9 +3,9 @@ plugins {
 }
 
 rootProject.name = "user-manager-uni"
-include(":app")
-include(":domain")
-include(":service")
+include("app")
+include("domain")
+include("service")
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -29,7 +29,8 @@ dependencyResolutionManagement {
         create("libs") {
             library("kotlinReflect", "org.jetbrains.kotlin", "kotlin-reflect").version("1.9.23")
             library("postgres", "org.postgresql:postgresql:42.7.3")
-            library("flyway", "org.flywaydb", "flyway-core").version("10.9.0")
+            library("flyway", "org.flywaydb", "flyway-core").version("10.10.0")
+            library("flywayPostgres", "org.flywaydb", "flyway-database-postgresql").version("10.10.0")
             library("jackson", "com.fasterxml.jackson.module", "jackson-module-kotlin").version("2.16.1")
         }
     }
