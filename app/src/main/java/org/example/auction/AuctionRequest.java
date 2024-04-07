@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 
 public record AuctionRequest(
         @Size.List({
-                @Size(max = 60),
-                @Size(min = 10)
+                @Size(max = 60, message = "auctionRequest.name.size.max"),
+                @Size(min = 10, message = "auctionRequest.name.size.min")
         })
         @NotBlank
         String name,
@@ -19,8 +19,8 @@ public record AuctionRequest(
         LocalDateTime startsAt,
 
         @Size.List({
-                @Size(max = 120),
-                @Size(min = 10)
+                @Size(max = 120, message = "auctionRequest.description.size.max"),
+                @Size(min = 10, message = "auctionRequest.description.size.min")
         })
         @NotBlank
         String description,
