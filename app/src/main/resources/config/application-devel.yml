@@ -3,9 +3,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: root
     password: root
+    driver-class-name: org.postgresql.Driver
+
   flyway:
     create-schemas: true
     schemas: user_manager_uni
-    url: ${spring.datasource.url}
-    user: ${spring.datasource.username}
-    password: ${spring.datasource.password}
+    default-schema: user_manager_uni
