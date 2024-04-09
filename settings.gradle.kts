@@ -32,6 +32,17 @@ dependencyResolutionManagement {
             library("flyway", "org.flywaydb", "flyway-core").version("10.10.0")
             library("flywayPostgres", "org.flywaydb", "flyway-database-postgresql").version("10.10.0")
             library("jackson", "com.fasterxml.jackson.module", "jackson-module-kotlin").version("2.16.1")
+            library("jpaAnnotations", "jakarta.annotation:jakarta.annotation-api:3.0.0")
+        }
+
+        create("queryDsl") {
+            val group = "io.github.openfeign.querydsl"
+            version("queryDsl", "6.1")
+
+            library("core", group, "querydsl-core").versionRef("queryDsl")
+            library("apt", group, "querydsl-apt").versionRef("queryDsl")
+            library("sql", group, "querydsl-sql").versionRef("queryDsl")
+            library("jpa", group, "querydsl-jpa").versionRef("queryDsl")
         }
     }
 }
