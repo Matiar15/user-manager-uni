@@ -33,4 +33,38 @@ class AuctionServiceImplTest extends Specification {
         and:
         0 * _
     }
+
+    def "should patch auction all good with provided parameters"() {
+        given:
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                price: 20.36D,
+                startsAt: LocalDateTime.of(2023, 3, 3, 3, 3),
+                endsAt: LocalDateTime.of(2023, 3, 3, 6, 3)
+        )
+
+        def newName = "teeest"
+        def newDescription = "teeeeeest"
+        def newPrice = 200.36D
+        def newStartsAt = LocalDateTime.of(2024, 4, 4, 4, 4)
+
+        when:
+        def result = underTest.patchAuction(1, newName, newDescription, newPrice, newStartsAt)
+
+        then:
+        1 * auctionRepository.requireById(1) >> auction
+
+        and:
+        result.name == newName
+        result.description == newDescription
+        result.price == newPrice
+        result.startsAt == newStartsAt
+        result.endsAt == newStartsAt.plusHours(3)
+
+        and:
+        0 * _
+    }
+
 }

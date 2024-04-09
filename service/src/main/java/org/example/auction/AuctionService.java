@@ -16,7 +16,7 @@ public interface AuctionService {
 
     Page<Auction> fetchByFilter(AuctionFilter filter, Pageable page);
 
-    void patchAuction(
+    Auction patchAuction(
             int id,
             String name,
             String description,
