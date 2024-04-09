@@ -1,11 +1,10 @@
 package org.example.auction;
 
 import jakarta.validation.Valid;
-import org.example.EntityMapper;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.example.util.EntityMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auctions")
@@ -29,5 +28,14 @@ public class AuctionController {
                 request.description(),
                 request.price()
         ));
+    }
+
+    @GetMapping
+    public Page<AuctionResponse> fetchByFilter(
+            @Valid AuctionFilterRequest filter,
+            Pageable page
+    ) {
+        return auctionService.fetchByFilter(filter.asFilter(), page)
+                .map(mapper::fromAuction);
     }
 }

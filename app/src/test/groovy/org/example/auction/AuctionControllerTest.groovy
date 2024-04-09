@@ -1,7 +1,7 @@
 package org.example.auction
 
 import org.example.Auction
-import org.example.EntityMapper
+import org.example.util.EntityMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.TestConfiguration
