@@ -1,9 +1,12 @@
 package org.example.auction;
 
 import jakarta.validation.Valid;
+import org.example.validation.group.Post;
 import org.example.util.EntityMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,13 +24,14 @@ public class AuctionController {
     }
 
     @PostMapping
-    public AuctionResponse create(@Valid @RequestBody AuctionRequest request) {
-        return mapper.fromAuction(auctionService.createAuction(
+    @ResponseStatus(HttpStatus.CREATED)
+    public void create(@Validated(Post.class) @RequestBody AuctionRequest request) {
+        auctionService.createAuction(
                 request.name(),
                 request.startsAt(),
                 request.description(),
                 request.price()
-        ));
+        );
     }
 
     @GetMapping
@@ -37,5 +41,17 @@ public class AuctionController {
     ) {
         return auctionService.fetchByFilter(filter.asFilter(), page)
                 .map(mapper::fromAuction);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void patch(@PathVariable int id, @Valid @RequestBody AuctionRequest request) {
+        auctionService.patchAuction(
+                id,
+                request.name(),
+                request.description(),
+                request.price(),
+                request.startsAt()
+        );
     }
 }

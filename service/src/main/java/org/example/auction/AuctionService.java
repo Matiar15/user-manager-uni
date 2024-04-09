@@ -15,4 +15,12 @@ public interface AuctionService {
     );
 
     Page<Auction> fetchByFilter(AuctionFilter filter, Pageable page);
+
+    void patchAuction(
+            int id,
+            String name,
+            String description,
+            Double price,
+            LocalDateTime localDateTime
+    );
 }
