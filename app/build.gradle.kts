@@ -7,6 +7,7 @@ dependencies {
         exclude(module = "mockito-core")
     }
 
+    implementation(spring.jpa)
     implementation(libs.jackson)
     implementation(libs.flyway)
     implementation(libs.postgres)

@@ -31,6 +31,7 @@ allprojects {
     dependencies {
         val spockVersion = "2.4-M4-groovy-4.0"
         testImplementation("org.spockframework:spock-core:$spockVersion")
+        implementation("com.google.guava:guava:33.1.0-jre")
     }
 
     repositories {
