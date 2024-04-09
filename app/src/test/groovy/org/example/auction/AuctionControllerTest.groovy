@@ -15,6 +15,7 @@ import java.time.LocalDateTime
 
 import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest
@@ -245,6 +246,7 @@ class AuctionControllerTest extends Specification {
         and:
         0 * auctionService.createAuction(*_)
     }
+
     def "should validate description null all good"() {
         given:
         def name = "asdasdasd"
@@ -379,7 +381,7 @@ class AuctionControllerTest extends Specification {
     def "should validate price null"() {
         given:
         def name = "asdasdasdasdasdasdas"
-        def startsAt =  "2003-03-03T03:03"
+        def startsAt = "2003-03-03T03:03"
         def description = "asdasdasdsaddasasdas"
         def price = null
 
@@ -411,7 +413,7 @@ class AuctionControllerTest extends Specification {
     def "should validate price negative"() {
         given:
         def name = "asdasdasdasdasdasdas"
-        def startsAt =  "2003-03-03T03:03"
+        def startsAt = "2003-03-03T03:03"
         def description = "asdasdasdsaddasasdas"
         def price = -12.36D
 
@@ -438,6 +440,19 @@ class AuctionControllerTest extends Specification {
 
         and:
         0 * auctionService.createAuction(*_)
+    }
+
+    def "should use filter all good"() {
+        when:
+        def result = mvc.perform(get(ENDPOINT)
+                .param("name", "\"test\"")
+                .param("startsAt.from", "2023-03-03T03:03")
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+        )
+
+        then:
+        result.andExpect { status().isOk() }
     }
 
     @TestConfiguration

@@ -32,7 +32,7 @@ allprojects {
         val guavaVersion = "33.1.0-jre"
         val spockVersion = "2.4-M4-groovy-4.0"
         testImplementation("org.spockframework:spock-core:$spockVersion")
-        implementation("com.google.guava:$guavaVersion")
+        implementation("com.google.guava:guava:$guavaVersion")
     }
 
     repositories {
