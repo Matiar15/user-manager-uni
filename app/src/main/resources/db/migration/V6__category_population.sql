@@ -1,0 +1,15 @@
+INSERT INTO category(name)
+VALUES ('houses'),
+       ('garages'),
+       ('flats'),
+       ('warehouses'),
+       ('art'),
+       ('jewelery'),
+       ('furniture'),
+       ('clothes'),
+       ('AGD'),
+       ('RTV'),
+       ('cars'),
+       ('boats'),
+       ('scooters'),
+       ('other');
