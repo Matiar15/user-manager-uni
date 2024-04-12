@@ -35,7 +35,6 @@ public class AuctionController {
             @Valid AuctionFilterRequest filter,
             Pageable page
     ) {
-        return auctionService.fetchByFilter(filter.asFilter(), page)
-                .map(mapper::fromAuction);
+        return auctionService.fetchByFilter(filter.asFilter(), page).map(mapper::fromAuction);
     }
 }
