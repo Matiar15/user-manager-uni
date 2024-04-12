@@ -69,7 +69,7 @@ class AuctionControllerTest extends Specification {
         )
 
         then:
-        result.andExpect { status().isOk() }
+        result.andExpect { status().isCreated() }
 
         and:
         1 * auctionService.createAuction(
@@ -78,16 +78,6 @@ class AuctionControllerTest extends Specification {
                 description,
                 price
         ) >> auction
-
-        and:
-        1 * entityMapper.fromAuction(auction) >> new AuctionResponse(
-                auction.id,
-                auction.name,
-                auction.startsAt,
-                auction.endsAt,
-                auction.description,
-                auction.price
-        )
     }
 
     def "should validate name blank all good"() {

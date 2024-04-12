@@ -1,6 +1,7 @@
 package org.example.auction;
 
 import jakarta.validation.Valid;
+import org.example.validation.group.Patch;
 import org.example.validation.group.Post;
 import org.example.util.EntityMapper;
 import org.springframework.data.domain.Page;
@@ -44,7 +45,7 @@ public class AuctionController {
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void patch(@PathVariable int id, @Valid @RequestBody AuctionRequest request) {
+    public void patch(@PathVariable int id, @Validated(Patch.class) @RequestBody AuctionRequest request) {
         auctionService.patchAuction(
                 id,
                 request.name(),
