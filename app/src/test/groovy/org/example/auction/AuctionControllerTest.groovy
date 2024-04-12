@@ -1,5 +1,6 @@
 package org.example.auction
 
+import com.google.common.collect.Range
 import org.example.Auction
 import org.example.util.EntityMapper
 import org.springframework.beans.factory.annotation.Autowired
@@ -7,6 +8,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
 import org.springframework.test.web.servlet.MockMvc
 import spock.lang.Specification
 import spock.mock.DetachedMockFactory
@@ -14,8 +18,8 @@ import spock.mock.DetachedMockFactory
 import java.time.LocalDateTime
 
 import static org.springframework.http.MediaType.APPLICATION_JSON
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest
@@ -443,15 +447,26 @@ class AuctionControllerTest extends Specification {
     }
 
     def "should use filter all good"() {
+        given:
+        def request = PageRequest.of(0, 20, Sort.unsorted())
+        def filter = new AuctionFilter(
+                ["test"] as LinkedHashSet,
+                Range.atLeast((LocalDateTime.of(2023, 3, 3, 3, 3))),
+                null
+        )
+
         when:
         def result = mvc.perform(get(ENDPOINT)
-                .param("name", "\"test\"")
+                .param("name", "test")
                 .param("startsAt.from", "2023-03-03T03:03")
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON)
         )
 
         then:
+        1 * auctionService.fetchByFilter(filter, request) >> new PageImpl<Auction>([])
+
+        and:
         result.andExpect { status().isOk() }
     }
 
