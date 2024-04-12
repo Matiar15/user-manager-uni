@@ -67,4 +67,27 @@ class AuctionServiceImplTest extends Specification {
         0 * _
     }
 
+    def "should delete by id all good"() {
+        given:
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                price: 20.36D,
+                startsAt: LocalDateTime.of(2023, 3, 3, 3, 3),
+                endsAt: LocalDateTime.of(2023, 3, 3, 6, 3)
+        )
+
+        when:
+        underTest.deleteById(auction.id)
+
+        then:
+        1 * auctionRepository.requireById(auction.id) >> auction
+
+        and:
+        1 * auctionRepository.delete(auction)
+
+        and:
+        0 * _
+    }
 }

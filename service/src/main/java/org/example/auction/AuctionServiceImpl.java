@@ -37,6 +37,12 @@ public class AuctionServiceImpl implements AuctionService {
         return auction;
     }
 
+    @Override
+    public void deleteById(int id) {
+        var auction = auctionRepository.requireById(id);
+        auctionRepository.delete(auction);
+    }
+
     private Auction toAuction(String name, LocalDateTime startsAt, String description, Double price) {
         var auction = new Auction();
         auction.setActive(true);

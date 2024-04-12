@@ -23,4 +23,6 @@ public interface AuctionService {
             Double price,
             LocalDateTime localDateTime
     );
+
+    void deleteById(int id);
 }
