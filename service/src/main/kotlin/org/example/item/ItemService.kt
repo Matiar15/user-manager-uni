@@ -3,6 +3,7 @@ package org.example.item
 import org.example.auction.AuctionRepository
 import org.example.category.CategoryRepository
 import org.example.category.requireById
+import org.example.exception.ItemNotAuctionedException
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
@@ -27,6 +28,11 @@ interface ItemService {
     ): Item
 
     fun deleteItem(id: Int)
+
+    fun findById(id: Int): Item
+
+    fun findByAuctionId(auctionId: Int): Item
+
 }
 
 @Service
@@ -76,4 +82,9 @@ class ItemServiceImpl(
         val item = itemRepository.requireById(id)
         itemRepository.delete(item)
     }
+
+    override fun findById(id: Int): Item = itemRepository.requireById(id)
+
+    override fun findByAuctionId(auctionId: Int): Item =
+        itemRepository.findByAuctionId(auctionId) ?: throw ItemNotAuctionedException(auctionId)
 }

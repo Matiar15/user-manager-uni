@@ -4,6 +4,7 @@ import org.example.Auction
 import org.example.auction.AuctionRepository
 import org.example.category.Category
 import org.example.category.CategoryRepository
+import org.example.exception.ItemNotAuctionedException
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -80,5 +81,34 @@ class ItemServiceImplTest extends Specification {
         result.producedAt == producedAt
         result.quality == quality
         result.price == price
+    }
+
+    def "should find item by auction with thrown exception"() {
+        given:
+        def auctionId = 2
+
+        when:
+        underTest.findByAuctionId(auctionId)
+
+        then:
+        1 * itemRepository.findByAuctionId(auctionId) >> null
+
+        and:
+        thrown ItemNotAuctionedException
+        0 * _
+    }
+
+    def "should find item by auction all good"() {
+        given:
+        def auctionId = 2
+
+        when:
+        underTest.findByAuctionId(auctionId)
+
+        then:
+        1 * itemRepository.findByAuctionId(auctionId) >> new Item(id: 1, auction: new Auction(id: auctionId))
+
+        and:
+        0 * _
     }
 }
