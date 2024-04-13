@@ -10,7 +10,7 @@ import java.time.LocalDate
 class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int = 0
+    var id: Int = 0
 
     @Column
     lateinit var name: String
@@ -24,7 +24,7 @@ class Item {
     lateinit var auction: Auction
 
     @Column
-    var yearOfProduction: LocalDate? = null
+    var producedAt: LocalDate? = null
 
     @Column
     var quality: Quality? = Quality.WELL_WORN
@@ -38,5 +38,18 @@ class Item {
         FIELD_TESTED,
         WELL_WORN,
         BATTLE_SCARRED
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Item
+
+        return id == other.id
+    }
+
+    override fun hashCode(): Int {
+        return id
     }
 }
