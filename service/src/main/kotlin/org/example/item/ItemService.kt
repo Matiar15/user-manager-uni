@@ -24,7 +24,7 @@ interface ItemService {
         producedAt: LocalDate?,
         quality: Item.Quality?,
         price: Double?
-    )
+    ): Item
 
     fun deleteItem(id: Int)
 }
@@ -61,7 +61,7 @@ class ItemServiceImpl(
         producedAt: LocalDate?,
         quality: Item.Quality?,
         price: Double?
-    ) {
+    ): Item {
         val item = itemRepository.requireById(id)
         name?.let { item.name = it }
         categoryId?.let { item.category = categoryRepository.requireById(it) }
@@ -69,6 +69,7 @@ class ItemServiceImpl(
         producedAt?.let { item.producedAt = producedAt }
         quality?.let { item.quality = quality }
         price?.let { item.price = price }
+        return item
     }
 
     override fun deleteItem(id: Int) {
