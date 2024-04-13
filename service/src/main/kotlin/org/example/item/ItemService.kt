@@ -16,6 +16,16 @@ interface ItemService {
         price: Double
     ): Item
 
+    fun patchItem(
+        id: Int,
+        name: String?,
+        categoryId: Int?,
+        auctionId: Int?,
+        producedAt: LocalDate?,
+        quality: Item.Quality?,
+        price: Double?
+    )
+
     fun deleteItem(id: Int)
 }
 
@@ -42,6 +52,24 @@ class ItemServiceImpl(
             this.price = price
         }
     )
+
+    override fun patchItem(
+        id: Int,
+        name: String?,
+        categoryId: Int?,
+        auctionId: Int?,
+        producedAt: LocalDate?,
+        quality: Item.Quality?,
+        price: Double?
+    ) {
+        val item = itemRepository.requireById(id)
+        name?.let { item.name = it }
+        categoryId?.let { item.category = categoryRepository.requireById(it) }
+        auctionId?.let { item.auction = auctionRepository.requireById(it) }
+        producedAt?.let { item.producedAt = producedAt }
+        quality?.let { item.quality = quality }
+        price?.let { item.price = price }
+    }
 
     override fun deleteItem(id: Int) {
         val item = itemRepository.requireById(id)
