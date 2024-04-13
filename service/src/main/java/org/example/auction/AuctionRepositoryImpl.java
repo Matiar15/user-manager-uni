@@ -21,7 +21,8 @@ public class AuctionRepositoryImpl extends QuerydslRepositorySupport implements 
     public Page<Auction> fetchByFilter(AuctionFilter filter, Pageable page) {
         var root = QAuction.auction;
 
-        var query = from(root);
+        var query = from(root)
+                .where(asPredicate(root, filter));
 
         query = getQuerydsl().applyPagination(page, query);
         return PageableExecutionUtils.getPage(query.fetch(), page, query::fetchCount);
