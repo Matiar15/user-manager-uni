@@ -4,6 +4,8 @@ import org.example.auction.AuctionRepository
 import org.example.category.CategoryRepository
 import org.example.category.requireById
 import org.example.exception.ItemNotAuctionedException
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 
@@ -33,6 +35,7 @@ interface ItemService {
 
     fun findByAuctionId(auctionId: Int): Item
 
+    fun fetchByFilter(filter: ItemFilter, page: Pageable): Page<Item>
 }
 
 @Service
@@ -87,4 +90,8 @@ class ItemServiceImpl(
 
     override fun findByAuctionId(auctionId: Int): Item =
         itemRepository.findByAuctionId(auctionId) ?: throw ItemNotAuctionedException(auctionId)
+
+    override fun fetchByFilter(filter: ItemFilter, page: Pageable): Page<Item> {
+        return itemRepository.fetchByFilter(filter, page)
+    }
 }
