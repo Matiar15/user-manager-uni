@@ -1,5 +1,6 @@
-package org.example
+package org.example.util
 
+import org.example.Auction
 import org.example.auction.AuctionResponse
 import spock.lang.Specification
 
