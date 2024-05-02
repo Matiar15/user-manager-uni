@@ -15,6 +15,8 @@ interface ItemService {
         quality: Item.Quality,
         price: Double
     ): Item
+
+    fun deleteItem(id: Int)
 }
 
 @Service
@@ -40,4 +42,9 @@ class ItemServiceImpl(
             this.price = price
         }
     )
+
+    override fun deleteItem(id: Int) {
+        val item = itemRepository.requireById(id)
+        itemRepository.delete(item)
+    }
 }
