@@ -18,6 +18,7 @@ import spock.mock.DetachedMockFactory
 import java.time.LocalDateTime
 
 import static org.springframework.http.MediaType.APPLICATION_JSON
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -458,6 +459,20 @@ class AuctionControllerTest extends Specification {
 
         and:
         result.andExpect { status().isOk() }
+    }
+
+    def "should delete by id all good"() {
+        when:
+        def result = mvc.perform(delete(ENDPOINT + "/1")
+                .accept(APPLICATION_JSON)
+                .contentType(APPLICATION_JSON)
+        )
+
+        then:
+        1 * auctionService.deleteById(1)
+
+        and:
+        result.andExpect { status().isNoContent() }
     }
 
     @TestConfiguration

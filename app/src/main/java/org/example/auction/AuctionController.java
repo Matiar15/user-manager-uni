@@ -54,4 +54,10 @@ public class AuctionController {
                 request.startsAt()
         );
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        auctionService.deleteById(id);
+    }
 }
