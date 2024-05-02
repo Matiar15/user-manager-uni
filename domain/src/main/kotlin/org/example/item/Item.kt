@@ -15,11 +15,11 @@ class Item {
     @Column
     lateinit var name: String
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn
     lateinit var category: Category
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn
     lateinit var auction: Auction
 

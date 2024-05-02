@@ -2,18 +2,20 @@ package org.example.item
 
 import org.example.validation.group.Patch
 import org.example.validation.group.Post
+import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/items")
+@RequestMapping("/api")
 class ItemController(
     private val itemService: ItemService
 ) {
-    @PostMapping
+    @PostMapping("/items")
+    @ResponseStatus(HttpStatus.CREATED)
     fun create(
         @Validated(Post::class) @RequestBody request: ItemRequest
-    ) = with(request) {
+    ): Unit = with(request) {
         itemService.createItem(
             name!!,
             category!!.id!!,
@@ -22,9 +24,10 @@ class ItemController(
             quality!!,
             price!!
         )
-    }.toResponse()
+    }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/items/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun patch(
         @PathVariable id: Int,
         @Validated(Patch::class) @RequestBody request: ItemRequest
@@ -40,8 +43,14 @@ class ItemController(
         )
     }
 
+    @GetMapping("/items/{id}")
+    fun findById(@PathVariable id: Int) = itemService.findById(id).toResponse()
 
-    @DeleteMapping("/{id}")
+    @GetMapping("/auctions/{auctionId}/items")
+    fun findByAuction(@PathVariable auctionId: Int) = itemService.findByAuctionId(auctionId).toResponse()
+
+    @DeleteMapping("/items/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Int): Unit = itemService.deleteItem(id)
 
     private fun Item.toResponse() {
