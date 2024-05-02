@@ -2,6 +2,7 @@ package org.example.util;
 
 import com.google.common.collect.Range;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static com.google.common.collect.Range.*;
@@ -41,6 +42,13 @@ public abstract class RangeDto<T extends Comparable<?>> {
 
     public static final class DateTimeRangeDto extends RangeDto<LocalDateTime> {
         public DateTimeRangeDto(LocalDateTime from, LocalDateTime to) {
+            super(from, to);
+        }
+    }
+
+
+    public static final class DateRangeDto extends RangeDto<LocalDate> {
+        public DateRangeDto(LocalDate from, LocalDate to) {
             super(from, to);
         }
     }

@@ -1,7 +1,9 @@
 package org.example.item
 
+import jakarta.validation.Valid
 import org.example.validation.group.Patch
 import org.example.validation.group.Post
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -48,6 +50,12 @@ class ItemController(
 
     @GetMapping("/auctions/{auctionId}/items")
     fun findByAuction(@PathVariable auctionId: Int) = itemService.findByAuctionId(auctionId).toResponse()
+
+    @GetMapping("/items")
+    fun fetchByFilter(
+        @Valid filter: ItemFilterRequest,
+        page: Pageable
+    ) = itemService.fetchByFilter(filter.asFilter(), page).map { it.toResponse() }
 
     @DeleteMapping("/items/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
