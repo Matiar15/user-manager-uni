@@ -4,11 +4,12 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
     val springBootVersion = "3.2.3"
-    val kotlinVersion = "1.9.22"
+    val kotlinVersion = "1.9.23"
 
     id("org.springframework.boot") version springBootVersion
     id("io.spring.dependency-management") version "1.1.4"
     id("java")
+    id("groovy")
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
@@ -18,6 +19,7 @@ plugins {
 allprojects {
     apply {
         plugin("java")
+        plugin("groovy")
         plugin("org.springframework.boot")
         plugin("org.jetbrains.kotlin.jvm")
         plugin("org.jetbrains.kotlin.plugin.spring")
@@ -25,6 +27,13 @@ allprojects {
 
     group = "org.example"
     version = "1.0.0"
+
+    dependencies {
+        val guavaVersion = "33.1.0-jre"
+        val spockVersion = "2.4-M4-groovy-4.0"
+        testImplementation("org.spockframework:spock-core:$spockVersion")
+        implementation("com.google.guava:guava:$guavaVersion")
+    }
 
     repositories {
         mavenCentral()
