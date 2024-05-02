@@ -1,5 +1,6 @@
 package org.example.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.exception.generic.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -15,7 +16,7 @@ public class Handler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleNotFoundException(
             NotFoundException ex,
-            WebRequest request
+            HttpServletRequest request
     ) {
         var status = HttpStatus.NOT_FOUND;
         var errorDto = new ErrorResponseDto(
@@ -23,7 +24,7 @@ public class Handler {
                 status.toString(),
                 ex.getClass().getSimpleName(),
                 ex.getMessage(),
-                request.getContextPath()
+                request.getRequestURI()
         );
         return errorDto.asResponseEntity(status);
     }
