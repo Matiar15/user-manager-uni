@@ -88,6 +88,11 @@ public class Auction {
         this.active = active;
     }
 
+    public void setStartsAtAndRenewEndsAt(LocalDateTime startsAt) {
+        this.startsAt = startsAt;
+        this.endsAt = startsAt.plusHours(3);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

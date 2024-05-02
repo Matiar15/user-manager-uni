@@ -27,6 +27,16 @@ public class AuctionServiceImpl implements AuctionService {
         return auctionRepository.fetchByFilter(filter, page);
     }
 
+    @Override
+    public Auction patchAuction(int id, String name, String description, Double price, LocalDateTime startsAt) {
+        var auction = auctionRepository.requireById(id);
+        if (name != null) auction.setName(name);
+        if (description != null) auction.setDescription(description);
+        if (price != null) auction.setPrice(price);
+        if (startsAt != null) auction.setStartsAtAndRenewEndsAt(startsAt);
+        return auction;
+    }
+
     private Auction toAuction(String name, LocalDateTime startsAt, String description, Double price) {
         var auction = new Auction();
         auction.setActive(true);
