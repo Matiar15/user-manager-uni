@@ -9,3 +9,8 @@ spring:
     create-schemas: true
     schemas: user_manager_uni
     default-schema: user_manager_uni
+
+jwt:
+  key: TEST_TEST_TEST_TEST_TEST_TEST_TEST_TEST
+  expires-after: 3600
+  refresh-after: 3600
