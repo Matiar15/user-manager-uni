@@ -20,7 +20,7 @@ class EntityMapperTest extends Specification {
             it.setName("TEST")
             it.setStartsAt(startsAt)
             it.setOwnerId(1)
-            it.setWinnersEmail("asd@test.com")
+            it.setWinnerEmail("asd@test.com")
             it.setCurrentPrice(2.0)
         }
 
@@ -36,8 +36,8 @@ class EntityMapperTest extends Specification {
                 auction.description,
                 auction.startPrice,
                 auction.currentPrice,
-                auction.winnersEmail,
-                auction.winnersId,
+                auction.winnerEmail,
+                auction.winnerId,
                 auction.ownerId
         )
     }

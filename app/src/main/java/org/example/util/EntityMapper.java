@@ -15,8 +15,8 @@ public class EntityMapper {
                 auction.getDescription(),
                 auction.getStartPrice(),
                 auction.getCurrentPrice(),
-                auction.getWinnersEmail(),
-                auction.getWinnersId(),
+                auction.getWinnerEmail(),
+                auction.getWinnerId(),
                 auction.getOwnerId()
         );
     }
