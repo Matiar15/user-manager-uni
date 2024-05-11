@@ -27,10 +27,22 @@ public class Auction {
     private String description;
 
     @Column
-    private Double price;
+    private Double startPrice;
 
     @Column
     private Boolean active = true;
+
+    @Column
+    private Double currentPrice;
+
+    @Column
+    private String winnersEmail;
+
+    @Column
+    private Integer winnersId;
+
+    @Column
+    private Integer ownerId;
 
     public Integer getId() {
         return id;
@@ -72,12 +84,12 @@ public class Auction {
         this.description = description;
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getStartPrice() {
+        return startPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setStartPrice(Double price) {
+        this.startPrice = price;
     }
 
     public Boolean getActive() {
@@ -86,6 +98,38 @@ public class Auction {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Double getCurrentPrice() {
+        return currentPrice;
+    }
+
+    public void setCurrentPrice(Double currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public String getWinnersEmail() {
+        return winnersEmail;
+    }
+
+    public void setWinnersEmail(String winnersEmail) {
+        this.winnersEmail = winnersEmail;
+    }
+
+    public Integer getWinnersId() {
+        return winnersId;
+    }
+
+    public void setWinnersId(Integer winnersId) {
+        this.winnersId = winnersId;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
 
     public void setStartsAtAndRenewEndsAt(LocalDateTime startsAt) {

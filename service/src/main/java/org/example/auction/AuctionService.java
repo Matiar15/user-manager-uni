@@ -11,7 +11,8 @@ public interface AuctionService {
             String name,
             LocalDateTime startsAt,
             String description,
-            Double price
+            Double price,
+            int userId
     );
 
     Page<Auction> fetchByFilter(AuctionFilter filter, Pageable page);

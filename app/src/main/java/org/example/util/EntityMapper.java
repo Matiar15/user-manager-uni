@@ -13,7 +13,7 @@ public class EntityMapper {
                 auction.getStartsAt(),
                 auction.getEndsAt(),
                 auction.getDescription(),
-                auction.getPrice()
+                auction.getStartPrice()
         );
     }
 }

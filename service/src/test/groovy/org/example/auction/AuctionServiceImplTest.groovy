@@ -18,16 +18,17 @@ class AuctionServiceImplTest extends Specification {
         def price = 20.36D
 
         when:
-        underTest.createAuction(name, startsAt, description, price)
+        underTest.createAuction(name, startsAt, description, price, 1)
 
         then:
         1 * auctionRepository.save({ Auction a ->
             a.active == true
             a.endsAt == startsAt.plusHours(3)
             a.startsAt == startsAt
-            a.price == price
+            a.startPrice == price
             a.name == name
             a.description == description
+            a.ownerId == 1
         }) >> _
 
         and:
@@ -40,7 +41,7 @@ class AuctionServiceImplTest extends Specification {
                 id: 1,
                 name: "asd",
                 description: "test",
-                price: 20.36D,
+                startPrice: 20.36D,
                 startsAt: LocalDateTime.of(2023, 3, 3, 3, 3),
                 endsAt: LocalDateTime.of(2023, 3, 3, 6, 3)
         )
@@ -59,7 +60,7 @@ class AuctionServiceImplTest extends Specification {
         and:
         result.name == newName
         result.description == newDescription
-        result.price == newPrice
+        result.startPrice == newPrice
         result.startsAt == newStartsAt
         result.endsAt == newStartsAt.plusHours(3)
 
@@ -73,7 +74,7 @@ class AuctionServiceImplTest extends Specification {
                 id: 1,
                 name: "asd",
                 description: "test",
-                price: 20.36D,
+                startPrice: 20.36D,
                 startsAt: LocalDateTime.of(2023, 3, 3, 3, 3),
                 endsAt: LocalDateTime.of(2023, 3, 3, 6, 3)
         )
