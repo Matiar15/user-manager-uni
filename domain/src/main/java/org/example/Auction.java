@@ -36,10 +36,10 @@ public class Auction {
     private Double currentPrice;
 
     @Column
-    private String winnersEmail;
+    private String winnerEmail;
 
     @Column
-    private Integer winnersId;
+    private Integer winnerId;
 
     @Column
     private Integer ownerId;
@@ -108,20 +108,20 @@ public class Auction {
         this.currentPrice = currentPrice;
     }
 
-    public String getWinnersEmail() {
-        return winnersEmail;
+    public String getWinnerEmail() {
+        return winnerEmail;
     }
 
-    public void setWinnersEmail(String winnersEmail) {
-        this.winnersEmail = winnersEmail;
+    public void setWinnerEmail(String winnersEmail) {
+        this.winnerEmail = winnersEmail;
     }
 
-    public Integer getWinnersId() {
-        return winnersId;
+    public Integer getWinnerId() {
+        return winnerId;
     }
 
-    public void setWinnersId(Integer winnersId) {
-        this.winnersId = winnersId;
+    public void setWinnerId(Integer winnersId) {
+        this.winnerId = winnersId;
     }
 
     public Integer getOwnerId() {
