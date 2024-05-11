@@ -3,6 +3,7 @@ package org.example.auction;
 import jakarta.transaction.Transactional;
 import org.example.Auction;
 import org.example.exception.AuctionAlreadyStartedException;
+import org.example.exception.AuctionPriceException;
 import org.example.exception.StartsAtExpiredException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,6 +66,21 @@ public class AuctionServiceImpl implements AuctionService {
         }
 
         auctionRepository.delete(auction);
+    }
+
+    @Override
+    public Auction bidOnAuction(int id, int winnerId, String winnerEmail, Double price) {
+        var auction = auctionRepository.requireById(id);
+
+        if (auction.getCurrentPrice() >= price) {
+            throw new AuctionPriceException(auction.getId(), price);
+        }
+
+        auction.setCurrentPrice(price);
+        auction.setWinnersEmail(winnerEmail);
+        auction.setWinnersId(winnerId);
+
+        return auctionRepository.save(auction);
     }
 
     private Auction toAuction(String name, LocalDateTime startsAt, String description, Double price, int userId) {

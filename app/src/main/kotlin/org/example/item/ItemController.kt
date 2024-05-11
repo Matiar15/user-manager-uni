@@ -4,7 +4,8 @@ import jakarta.validation.Valid
 import org.example.validation.group.Patch
 import org.example.validation.group.Post
 import org.springframework.data.domain.Pageable
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.CREATED
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
@@ -14,7 +15,7 @@ class ItemController(
     private val itemService: ItemService
 ) {
     @PostMapping("/items")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     fun create(
         @Validated(Post::class) @RequestBody request: ItemRequest
     ): Unit = with(request) {
@@ -29,7 +30,7 @@ class ItemController(
     }
 
     @PatchMapping("/items/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     fun patch(
         @PathVariable id: Int,
         @Validated(Patch::class) @RequestBody request: ItemRequest
@@ -58,7 +59,7 @@ class ItemController(
     ) = itemService.fetchByFilter(filter.asFilter(), page).map { it.toResponse() }
 
     @DeleteMapping("/items/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     fun delete(@PathVariable id: Int): Unit = itemService.deleteItem(id)
 
     private fun Item.toResponse() {

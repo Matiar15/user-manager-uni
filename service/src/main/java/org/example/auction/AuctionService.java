@@ -26,4 +26,6 @@ public interface AuctionService {
     );
 
     void deleteById(int id);
+
+    Auction bidOnAuction(int id, int winnerId, String winnerEmail, Double price);
 }
