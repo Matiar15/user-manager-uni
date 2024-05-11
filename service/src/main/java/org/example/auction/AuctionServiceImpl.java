@@ -84,8 +84,8 @@ public class AuctionServiceImpl implements AuctionService {
         }
 
         auction.setCurrentPrice(price);
-        auction.setWinnersEmail(winnerEmail);
-        auction.setWinnersId(winnerId);
+        auction.setWinnerEmail(winnerEmail);
+        auction.setWinnerId(winnerId);
 
         return auctionRepository.save(auction);
     }

@@ -210,8 +210,8 @@ class AuctionServiceImplTest extends Specification {
         and:
         1 * auctionRepository.save({ Auction a ->
             a.currentPrice == 20.0D
-            a.winnersEmail == "test@test.com"
-            a.winnersId == winnerId
+            a.winnerEmail == "test@test.com"
+            a.winnerId == winnerId
         })
 
         and:
