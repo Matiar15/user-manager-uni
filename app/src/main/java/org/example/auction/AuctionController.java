@@ -72,4 +72,21 @@ public class AuctionController {
     public void delete(@PathVariable int id) {
         auctionService.deleteById(id);
     }
+
+
+    @PatchMapping("/{id}/bid")
+    @ResponseStatus(NO_CONTENT)
+    public void patch(@PathVariable int id, AuctionBidRequest request,
+                      @RequestHeader(AUTHORIZATION) String token
+    ) {
+        var userId = tokenService.getUserId(token);
+        var email = tokenService.extractEmail(token);
+
+        auctionService.bidOnAuction(
+                id,
+                userId,
+                email,
+                request.price()
+        );
+    }
 }

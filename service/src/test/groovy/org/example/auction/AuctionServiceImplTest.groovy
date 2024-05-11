@@ -1,7 +1,10 @@
 package org.example.auction
 
 import org.example.Auction
+import org.example.exception.AuctionAlreadyEndedException
 import org.example.exception.AuctionAlreadyStartedException
+import org.example.exception.AuctionNotStartedException
+import org.example.exception.AuctionPriceException
 import org.example.exception.StartsAtExpiredException
 import spock.lang.Specification
 
@@ -178,6 +181,127 @@ class AuctionServiceImplTest extends Specification {
 
         and:
         thrown AuctionAlreadyStartedException
+        0 * _
+    }
+
+    def "should bid on auction all good"() {
+        given:
+        def dateTime = LocalDateTime.now().minusHours(1)
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                startPrice: 20.36D,
+                currentPrice: 19.36D,
+                startsAt: dateTime,
+                endsAt: dateTime.plusHours(3)
+        )
+        def auctionId = 1
+        def winnerId = 123
+        def winnerEmail = "test@test.com"
+        def newPrice = 20.0D
+
+        when:
+        underTest.bidOnAuction(auctionId, winnerId, winnerEmail, newPrice)
+
+        then:
+        1 * auctionRepository.requireById(auctionId) >> auction
+
+        and:
+        1 * auctionRepository.save({ Auction a ->
+            a.currentPrice == 20.0D
+            a.winnerEmail == "test@test.com"
+            a.winnerId == winnerId
+        })
+
+        and:
+        0 * _
+    }
+
+
+    def "should bid on auction with auction price exception"() {
+        given:
+        def dateTime = LocalDateTime.now().minusHours(1)
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                startPrice: 20.36D,
+                currentPrice: 20.36D,
+                startsAt: dateTime,
+                endsAt: dateTime.plusHours(3)
+        )
+        def auctionId = 1
+        def winnerId = 123
+        def winnerEmail = "test@test.com"
+        def newPrice = 20.0D
+
+        when:
+        underTest.bidOnAuction(auctionId, winnerId, winnerEmail, newPrice)
+
+        then:
+        1 * auctionRepository.requireById(auctionId) >> auction
+
+        and:
+        thrown AuctionPriceException
+        0 * _
+    }
+
+
+    def "should bid on auction with thrown auction not started exception"() {
+        given:
+        def dateTime = LocalDateTime.now().plusDays(1)
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                startPrice: 20.36D,
+                currentPrice: 20.36D,
+                startsAt: dateTime,
+                endsAt: dateTime.plusHours(3)
+        )
+        def auctionId = 1
+        def winnerId = 123
+        def winnerEmail = "test@test.com"
+        def newPrice = 30.0D
+
+        when:
+        underTest.bidOnAuction(auctionId, winnerId, winnerEmail, newPrice)
+
+        then:
+        1 * auctionRepository.requireById(auctionId) >> auction
+
+        and:
+        thrown AuctionNotStartedException
+        0 * _
+    }
+
+
+    def "should bid on auction already ended exception"() {
+        given:
+        def dateTime = LocalDateTime.now().minusDays(1)
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                startPrice: 20.36D,
+                currentPrice: 20.36D,
+                startsAt: dateTime,
+                endsAt: dateTime.plusHours(3)
+        )
+        def auctionId = 1
+        def winnerId = 123
+        def winnerEmail = "test@test.com"
+        def newPrice = 30.0D
+
+        when:
+        underTest.bidOnAuction(auctionId, winnerId, winnerEmail, newPrice)
+
+        then:
+        1 * auctionRepository.requireById(auctionId) >> auction
+
+        and:
+        thrown AuctionAlreadyEndedException
         0 * _
     }
 }
