@@ -18,8 +18,14 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public Auction createAuction(String name, LocalDateTime startsAt, String description, Double price) {
-        return auctionRepository.save(toAuction(name, startsAt, description, price));
+    public Auction createAuction(
+            String name,
+            LocalDateTime startsAt,
+            String description,
+            Double price,
+            int userId
+    ) {
+        return auctionRepository.save(toAuction(name, startsAt, description, price, userId));
     }
 
     @Override
@@ -32,7 +38,7 @@ public class AuctionServiceImpl implements AuctionService {
         var auction = auctionRepository.requireById(id);
         if (name != null) auction.setName(name);
         if (description != null) auction.setDescription(description);
-        if (price != null) auction.setPrice(price);
+        if (price != null) auction.setStartPrice(price);
         if (startsAt != null) auction.setStartsAtAndRenewEndsAt(startsAt);
         return auction;
     }
@@ -43,14 +49,16 @@ public class AuctionServiceImpl implements AuctionService {
         auctionRepository.delete(auction);
     }
 
-    private Auction toAuction(String name, LocalDateTime startsAt, String description, Double price) {
+    private Auction toAuction(String name, LocalDateTime startsAt, String description, Double price, int userId) {
         var auction = new Auction();
         auction.setActive(true);
         auction.setEndsAt(startsAt.plusHours(3));
         auction.setDescription(description);
-        auction.setPrice(price);
+        auction.setStartPrice(price);
         auction.setName(name);
         auction.setStartsAt(startsAt);
+        auction.setCurrentPrice(price);
+        auction.setOwnerId(userId);
         return auction;
     }
 }

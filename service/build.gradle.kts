@@ -5,4 +5,6 @@ dependencies {
     implementation(queryDsl.apt)
     implementation(queryDsl.sql)
     implementation(queryDsl.jpa)
+    implementation(spring.security)
+    implementation(libs.jwt)
 }
