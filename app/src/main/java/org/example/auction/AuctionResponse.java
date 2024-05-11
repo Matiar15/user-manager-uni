@@ -10,8 +10,8 @@ public record AuctionResponse(
         String description,
         Double startPrice,
         Double currentPrice,
-        String winnersEmail,
-        Integer winnersId,
+        String winnerEmail,
+        Integer winnerId,
         Integer ownerId
 ) {
 }

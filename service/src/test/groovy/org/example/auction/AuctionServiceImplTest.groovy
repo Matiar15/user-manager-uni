@@ -1,6 +1,8 @@
 package org.example.auction
 
 import org.example.Auction
+import org.example.exception.AuctionAlreadyStartedException
+import org.example.exception.StartsAtExpiredException
 import spock.lang.Specification
 
 import java.time.LocalDateTime
@@ -69,7 +71,95 @@ class AuctionServiceImplTest extends Specification {
         0 * _
     }
 
+
+    def "should patch auction all good with provided parameters"() {
+        given:
+        def dateTime = LocalDateTime.now().plusDays(1)
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                startPrice: 20.36D,
+                startsAt: dateTime,
+                endsAt: dateTime.plusHours(3)
+        )
+
+        def newName = "teeest"
+        def newDescription = "teeeeeest"
+        def newPrice = 200.36D
+        def newStartsAt = LocalDateTime.now().plusDays(2)
+
+        when:
+        def result = underTest.patchAuction(1, newName, newDescription, newPrice, newStartsAt)
+
+        then:
+        1 * auctionRepository.requireById(1) >> auction
+
+        and:
+        result.name == newName
+        result.description == newDescription
+        result.startPrice == newPrice
+        result.startsAt == newStartsAt
+        result.endsAt == newStartsAt.plusHours(3)
+
+        and:
+        0 * _
+    }
+
+    def "should patch auction with already started auction"() {
+        given:
+        def dateTime = LocalDateTime.now().plusDays(1)
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                startPrice: 20.36D,
+                startsAt: dateTime,
+                endsAt: dateTime.plusHours(3)
+        )
+
+        def newName = "teeest"
+        def newDescription = "teeeeeest"
+        def newPrice = 200.36D
+        def newStartsAt = LocalDateTime.now()
+
+        when:
+        underTest.patchAuction(1, newName, newDescription, newPrice, newStartsAt)
+
+        then:
+        1 * auctionRepository.requireById(1) >> auction
+
+        and:
+        thrown StartsAtExpiredException
+        0 * _
+    }
+
     def "should delete by id all good"() {
+        given:
+        def auction = new Auction(
+                id: 1,
+                name: "asd",
+                description: "test",
+                startPrice: 20.36D,
+                startsAt: LocalDateTime.now().plusDays(1),
+                endsAt: LocalDateTime.now().plusDays(1).plusHours(3)
+        )
+
+        when:
+        underTest.deleteById(auction.id)
+
+        then:
+        1 * auctionRepository.requireById(auction.id) >> auction
+
+        and:
+        1 * auctionRepository.delete(auction)
+
+        and:
+        0 * _
+    }
+
+
+    def "should delete by id with already started auction"() {
         given:
         def auction = new Auction(
                 id: 1,
@@ -87,9 +177,7 @@ class AuctionServiceImplTest extends Specification {
         1 * auctionRepository.requireById(auction.id) >> auction
 
         and:
-        1 * auctionRepository.delete(auction)
-
-        and:
+        thrown AuctionAlreadyStartedException
         0 * _
     }
 }
