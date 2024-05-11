@@ -8,6 +8,10 @@ public record AuctionResponse(
         LocalDateTime startsAt,
         LocalDateTime endsAt,
         String description,
-        Double price
+        Double startPrice,
+        Double currentPrice,
+        String winnersEmail,
+        Integer winnersId,
+        Integer ownerId
 ) {
 }

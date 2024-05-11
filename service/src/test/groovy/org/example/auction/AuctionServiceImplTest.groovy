@@ -37,19 +37,20 @@ class AuctionServiceImplTest extends Specification {
 
     def "should patch auction all good with provided parameters"() {
         given:
+        def dateTime = LocalDateTime.now().plusDays(1)
         def auction = new Auction(
                 id: 1,
                 name: "asd",
                 description: "test",
                 startPrice: 20.36D,
-                startsAt: LocalDateTime.of(2023, 3, 3, 3, 3),
-                endsAt: LocalDateTime.of(2023, 3, 3, 6, 3)
+                startsAt: dateTime,
+                endsAt: dateTime.plusHours(3)
         )
 
         def newName = "teeest"
         def newDescription = "teeeeeest"
         def newPrice = 200.36D
-        def newStartsAt = LocalDateTime.of(2024, 4, 4, 4, 4)
+        def newStartsAt = LocalDateTime.now().plusDays(2)
 
         when:
         def result = underTest.patchAuction(1, newName, newDescription, newPrice, newStartsAt)

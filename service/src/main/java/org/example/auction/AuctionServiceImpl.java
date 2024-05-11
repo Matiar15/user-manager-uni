@@ -2,6 +2,8 @@ package org.example.auction;
 
 import jakarta.transaction.Transactional;
 import org.example.Auction;
+import org.example.exception.AuctionAlreadyStartedException;
+import org.example.exception.StartsAtExpiredException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,16 +38,32 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     public Auction patchAuction(int id, String name, String description, Double price, LocalDateTime startsAt) {
         var auction = auctionRepository.requireById(id);
+        var now = LocalDateTime.now();
+
+        if (auction.getStartsAt().isBefore(now)) {
+            throw new AuctionAlreadyStartedException(auction.getId());
+        }
+
         if (name != null) auction.setName(name);
         if (description != null) auction.setDescription(description);
         if (price != null) auction.setStartPrice(price);
-        if (startsAt != null) auction.setStartsAtAndRenewEndsAt(startsAt);
+        if (startsAt != null) {
+            if (startsAt.isBefore(now)) {
+                throw new StartsAtExpiredException(startsAt);
+            }
+            auction.setStartsAtAndRenewEndsAt(startsAt);
+        }
         return auction;
     }
 
     @Override
     public void deleteById(int id) {
         var auction = auctionRepository.requireById(id);
+
+        if (auction.getStartsAt().isBefore(LocalDateTime.now())) {
+            throw new AuctionAlreadyStartedException(auction.getId());
+        }
+
         auctionRepository.delete(auction);
     }
 
