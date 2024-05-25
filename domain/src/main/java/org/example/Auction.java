@@ -2,6 +2,7 @@ package org.example;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -27,13 +28,10 @@ public class Auction {
     private String description;
 
     @Column
-    private Double startPrice;
+    private BigDecimal startPrice;
 
     @Column
-    private Boolean active = true;
-
-    @Column
-    private Double currentPrice;
+    private BigDecimal currentPrice;
 
     @Column
     private String winnerEmail;
@@ -84,27 +82,19 @@ public class Auction {
         this.description = description;
     }
 
-    public Double getStartPrice() {
+    public BigDecimal getStartPrice() {
         return startPrice;
     }
 
-    public void setStartPrice(Double price) {
+    public void setStartPrice(BigDecimal price) {
         this.startPrice = price;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public Double getCurrentPrice() {
+    public BigDecimal getCurrentPrice() {
         return currentPrice;
     }
 
-    public void setCurrentPrice(Double currentPrice) {
+    public void setCurrentPrice(BigDecimal currentPrice) {
         this.currentPrice = currentPrice;
     }
 

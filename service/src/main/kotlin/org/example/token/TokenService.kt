@@ -13,6 +13,8 @@ interface TokenService {
 
     fun extractEmail(token: String): String?
 
+    fun extractEmailWithoutParsedBearer(token: String): String?
+
     fun getClaims(token: String): Claims
 
     fun getUserId(token: String): Int
@@ -37,6 +39,8 @@ class TokenServiceImpl(
     }
 
     override fun extractEmail(token: String): String? = getClaims(token).subject
+
+    override fun extractEmailWithoutParsedBearer(token: String): String? = getClaims(token.extractTokenValue()).subject
 
     fun isNotExpired(token: String) = getClaims(token).expiration.after(Date())
 

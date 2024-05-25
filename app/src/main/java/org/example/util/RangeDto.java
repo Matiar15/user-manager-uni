@@ -18,7 +18,7 @@ public abstract class RangeDto<T extends Comparable<?>> {
         if (from != null && to != null) {
             try {
                 range = open(from, to);
-            } catch (IllegalStateException ex) {
+            } catch (IllegalArgumentException ex) {
                 range = all();
             }
         }

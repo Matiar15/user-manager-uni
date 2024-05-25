@@ -3,7 +3,6 @@ package org.example.item
 import jakarta.persistence.*
 import org.example.Auction
 import org.example.category.Category
-import java.time.LocalDate
 
 @Entity
 @Table
@@ -16,29 +15,15 @@ class Item {
     lateinit var name: String
 
     @OneToOne
-    @JoinColumn
+    @JoinColumn(name = "id_category")
     lateinit var category: Category
 
-    @OneToOne
-    @JoinColumn
+    @OneToOne(cascade = [CascadeType.REMOVE])
+    @JoinColumn(name = "id_auction")
     lateinit var auction: Auction
 
     @Column
-    var producedAt: LocalDate? = null
-
-    @Column
-    var quality: Quality? = Quality.WELL_WORN
-
-    @Column
     var price: Double? = null
-
-    enum class Quality {
-        FACTORY_NEW,
-        MINIMAL_WEAR,
-        FIELD_TESTED,
-        WELL_WORN,
-        BATTLE_SCARRED
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

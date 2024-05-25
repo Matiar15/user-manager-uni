@@ -8,6 +8,7 @@ import java.util.Collection;
 public record AuctionFilter(
         Collection<String> name,
         Range<LocalDateTime> startsAt,
-        Range<LocalDateTime> endsAt
+        Range<LocalDateTime> endsAt,
+        Collection<Integer> ownerId
 ) {
 }

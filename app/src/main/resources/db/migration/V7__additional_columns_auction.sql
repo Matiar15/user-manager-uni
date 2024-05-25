@@ -11,4 +11,5 @@ ALTER TABLE auction
     RENAME COLUMN price TO start_price;
 
 ALTER TABLE auction
-    ADD COLUMN IF NOT EXISTS current_price NUMERIC(2);
+    ADD COLUMN IF NOT EXISTS current_price DECIMAL(5, 2);
+

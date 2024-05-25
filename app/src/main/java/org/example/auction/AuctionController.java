@@ -52,7 +52,7 @@ public class AuctionController {
             @Valid AuctionFilterRequest filter,
             Pageable page
     ) {
-        return auctionService.fetchByFilter(filter.asFilter(), page).map(mapper::fromAuction);
+        return auctionService.fetchByFilter(filter.asFilter(null), page).map(mapper::fromAuction);
     }
 
     @PatchMapping("/{id}")
@@ -67,6 +67,11 @@ public class AuctionController {
         );
     }
 
+    @GetMapping("/{id}")
+    public AuctionResponse getById(@PathVariable int id) {
+        return mapper.fromAuction(auctionService.requireById(id));
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(NO_CONTENT)
     public void delete(@PathVariable int id) {
@@ -76,11 +81,11 @@ public class AuctionController {
 
     @PatchMapping("/{id}/bid")
     @ResponseStatus(NO_CONTENT)
-    public void patch(@PathVariable int id, AuctionBidRequest request,
+    public void patch(@PathVariable int id, @RequestBody @Valid AuctionBidRequest request,
                       @RequestHeader(AUTHORIZATION) String token
     ) {
         var userId = tokenService.getUserId(token);
-        var email = tokenService.extractEmail(token);
+        var email = tokenService.extractEmailWithoutParsedBearer(token);
 
         auctionService.bidOnAuction(
                 id,

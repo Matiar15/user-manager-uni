@@ -13,7 +13,7 @@ public class RangePredicate {
         if (range == null) return null;
         var upperBound = range.hasUpperBound() ? range.upperEndpoint() : null;
         var lowerBound = range.hasLowerBound() ? range.lowerEndpoint() : null;
-        return field.between(lowerBound, upperBound);
+        return (upperBound == null && lowerBound == null) ? null : field.between(lowerBound, upperBound);
     }
 
 

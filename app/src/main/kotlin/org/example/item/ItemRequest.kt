@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Positive
 import jakarta.validation.constraints.Size
 import org.example.validation.group.Patch
 import org.example.validation.group.Post
-import java.time.LocalDate
 
 data class ItemRequest(
     @get:Size.List(
@@ -20,16 +19,6 @@ data class ItemRequest(
     @get:NotNull(groups = [Post::class])
     @get:Valid
     val category: RefCategory? = null,
-
-    @get:NotNull(groups = [Post::class])
-    @get:Valid
-    val auction: RefAuction? = null,
-
-    @get:NotNull(groups = [Post::class])
-    val producedAt: LocalDate? = null,
-
-    @get:NotNull(groups = [Post::class])
-    val quality: Item.Quality? = null,
 
     @get:NotNull(groups = [Post::class])
     @get:Positive(groups = [Post::class, Patch::class])
