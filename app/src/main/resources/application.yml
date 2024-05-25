@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        default_schema: user_manager_uni
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
