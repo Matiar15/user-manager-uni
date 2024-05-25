@@ -38,7 +38,8 @@ public class AuctionRepositoryImpl extends QuerydslRepositorySupport implements 
 
         builder.and(Optional.ofNullable(filter.name()).map(root.name::in).orElse(null))
                 .and(RangePredicate.matches(filter.startsAt(), root.startsAt))
-                .and(RangePredicate.matches(filter.endsAt(), root.endsAt));
+                .and(RangePredicate.matches(filter.endsAt(), root.endsAt))
+                .and(Optional.ofNullable(filter.ownerId()).map(root.ownerId::in).orElse(null));
 
         return builder.getValue();
     }

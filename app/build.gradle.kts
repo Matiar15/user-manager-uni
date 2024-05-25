@@ -6,12 +6,12 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
         exclude(module = "mockito-core")
     }
-
+    implementation(spring.security)
     implementation(spring.jpa)
     implementation(libs.jackson)
     implementation(libs.flyway)
     implementation(libs.postgres)
-
+    implementation(libs.jwt)
     runtimeOnly(libs.flywayPostgres)
 
     testImplementation(springTest.springBootTest)

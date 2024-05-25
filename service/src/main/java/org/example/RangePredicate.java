@@ -10,7 +10,10 @@ public class RangePredicate {
             Range<T> range,
             DateTimePath<T> field
     ) {
-        return field.between(range.lowerEndpoint(), range.upperEndpoint());
+        if (range == null) return null;
+        var upperBound = range.hasUpperBound() ? range.upperEndpoint() : null;
+        var lowerBound = range.hasLowerBound() ? range.lowerEndpoint() : null;
+        return (upperBound == null && lowerBound == null) ? null : field.between(lowerBound, upperBound);
     }
 
 
@@ -18,6 +21,9 @@ public class RangePredicate {
             Range<T> range,
             DatePath<T> field
     ) {
-        return field.between(range.lowerEndpoint(), range.upperEndpoint());
+        if (range == null) return null;
+        var upperBound = range.hasUpperBound() ? range.upperEndpoint() : null;
+        var lowerBound = range.hasLowerBound() ? range.lowerEndpoint() : null;
+        return field.between(lowerBound, upperBound);
     }
 }

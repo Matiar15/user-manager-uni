@@ -7,15 +7,12 @@ import org.example.exception.ItemNotAuctionedException
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 
 interface ItemService {
     fun createItem(
         name: String,
         categoryId: Int,
         auctionId: Int,
-        producedAt: LocalDate,
-        quality: Item.Quality,
         price: Double
     ): Item
 
@@ -23,9 +20,6 @@ interface ItemService {
         id: Int,
         name: String?,
         categoryId: Int?,
-        auctionId: Int?,
-        producedAt: LocalDate?,
-        quality: Item.Quality?,
         price: Double?
     ): Item
 
@@ -48,16 +42,12 @@ class ItemServiceImpl(
         name: String,
         categoryId: Int,
         auctionId: Int,
-        producedAt: LocalDate,
-        quality: Item.Quality,
         price: Double
     ): Item = itemRepository.save(
         Item().apply {
             this.name = name
             this.category = categoryRepository.requireById(categoryId)
             this.auction = auctionRepository.requireById(auctionId)
-            this.producedAt = producedAt
-            this.quality = quality
             this.price = price
         }
     )
@@ -66,19 +56,13 @@ class ItemServiceImpl(
         id: Int,
         name: String?,
         categoryId: Int?,
-        auctionId: Int?,
-        producedAt: LocalDate?,
-        quality: Item.Quality?,
         price: Double?
     ): Item {
         val item = itemRepository.requireById(id)
         name?.let { item.name = it }
         categoryId?.let { item.category = categoryRepository.requireById(it) }
-        auctionId?.let { item.auction = auctionRepository.requireById(it) }
-        producedAt?.let { item.producedAt = producedAt }
-        quality?.let { item.quality = quality }
         price?.let { item.price = price }
-        return item
+        return itemRepository.save(item)
     }
 
     override fun deleteItem(id: Int) {

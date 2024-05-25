@@ -3,7 +3,6 @@ package org.example.item
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.types.Predicate
 import org.example.QAuction
-import org.example.RangePredicate
 import org.example.auction.AuctionRepository
 import org.example.category.QCategory
 import org.springframework.data.domain.Page
@@ -52,8 +51,6 @@ class ItemCustomRepositoryImpl(
                     name?.let { root.name.`in`(name) }
                     this.category?.let { root.category.id.`in`(it) }
                     this.auction?.let { auctionRepository.asPredicate(auction, it) }
-                    producedAt?.let { RangePredicate.matches(it, root.producedAt) }
-                    quality?.let { root.quality.`in`(it) }
                     price?.let { root.price.`in`(it) }
                 }
             )

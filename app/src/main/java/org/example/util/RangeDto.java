@@ -15,7 +15,13 @@ public abstract class RangeDto<T extends Comparable<?>> {
         var range = all();
         if (from != null) range = atLeast(from);
         if (to != null) range = atMost(to);
-        if (from != null && to != null) range = open(from, to);
+        if (from != null && to != null) {
+            try {
+                range = open(from, to);
+            } catch (IllegalArgumentException ex) {
+                range = all();
+            }
+        }
         return (Range<T>) range;
     }
 

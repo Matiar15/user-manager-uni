@@ -16,9 +16,12 @@ class EntityMapperTest extends Specification {
             it.setActive(true)
             it.setEndsAt(startsAt.plusHours(3))
             it.setDescription("TEST1")
-            it.setPrice(2.0)
+            it.setStartPrice(2.0)
             it.setName("TEST")
             it.setStartsAt(startsAt)
+            it.setOwnerId(1)
+            it.setWinnerEmail("asd@test.com")
+            it.setCurrentPrice(2.0)
         }
 
         when:
@@ -31,7 +34,11 @@ class EntityMapperTest extends Specification {
                 auction.startsAt,
                 auction.endsAt,
                 auction.description,
-                auction.price
+                auction.startPrice,
+                auction.currentPrice,
+                auction.winnerEmail,
+                auction.winnerId,
+                auction.ownerId
         )
     }
 }

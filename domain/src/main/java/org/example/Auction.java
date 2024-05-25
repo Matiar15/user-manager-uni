@@ -2,6 +2,7 @@ package org.example;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -27,10 +28,19 @@ public class Auction {
     private String description;
 
     @Column
-    private Double price;
+    private BigDecimal startPrice;
 
     @Column
-    private Boolean active = true;
+    private BigDecimal currentPrice;
+
+    @Column
+    private String winnerEmail;
+
+    @Column
+    private Integer winnerId;
+
+    @Column
+    private Integer ownerId;
 
     public Integer getId() {
         return id;
@@ -72,20 +82,44 @@ public class Auction {
         this.description = description;
     }
 
-    public Double getPrice() {
-        return price;
+    public BigDecimal getStartPrice() {
+        return startPrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setStartPrice(BigDecimal price) {
+        this.startPrice = price;
     }
 
-    public Boolean getActive() {
-        return active;
+    public BigDecimal getCurrentPrice() {
+        return currentPrice;
     }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setCurrentPrice(BigDecimal currentPrice) {
+        this.currentPrice = currentPrice;
+    }
+
+    public String getWinnerEmail() {
+        return winnerEmail;
+    }
+
+    public void setWinnerEmail(String winnersEmail) {
+        this.winnerEmail = winnersEmail;
+    }
+
+    public Integer getWinnerId() {
+        return winnerId;
+    }
+
+    public void setWinnerId(Integer winnersId) {
+        this.winnerId = winnersId;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
 
     public void setStartsAtAndRenewEndsAt(LocalDateTime startsAt) {
